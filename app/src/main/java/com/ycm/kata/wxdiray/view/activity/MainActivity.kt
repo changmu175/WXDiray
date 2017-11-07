@@ -24,13 +24,16 @@ class MainActivity : BaseActivity(), MainContract.View, View.OnClickListener {
         ideaFragment = IdeaFragment()
         meFragment = MeFragment()
         initView()
-
+        showFragment(findFragment!!)
     }
 
     override fun initView() {
         llFound = findViewById(R.id.ll_found)
+        llFound!!.setOnClickListener(this)
         llIdea = findViewById(R.id.ll_idea)
+        llIdea!!.setOnClickListener(this)
         llMe = findViewById(R.id.ll_me)
+        llMe!!.setOnClickListener(this)
     }
 
     private fun showFragment(fragment: Fragment) {

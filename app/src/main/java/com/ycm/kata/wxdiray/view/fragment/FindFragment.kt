@@ -2,31 +2,44 @@ package com.ycm.kata.wxdiray.view.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ycm.kata.wxdiray.R
 import com.ycm.kata.wxdiray.presenter.bean.Article
 import com.ycm.kata.wxdiray.view.adapter.FindArticleAdapter
+import com.ycm.kata.wxdiray.view.adapter.LoopViewPagerAdapter
+
 /**
  * Created by changmuyu on 2017/11/2.
  * Description:
  */
-open class FindFragment : Fragment() {
-    private val dataSource = ArrayList<Article>()
-    private var findArticleAdapter: FindArticleAdapter? = null
-    private var rvFindArticle: RecyclerView? = null
-    private var linearLayoutManager: LinearLayoutManager? = null
+open class FindFragment : Fragment(), ViewPager.OnPageChangeListener {
+    override fun onPageScrollStateChanged(state: Int) {
 
+    }
+
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+    }
+
+    override fun onPageSelected(position: Int) {
+    }
+
+    private val dataSource = ArrayList<Article>()
+//    private var findArticleAdapter: FindArticleAdapter? = null
+    private var vpFindArticle: ViewPager? = null
+    private var linearLayoutManager: LinearLayoutManager? = null
+    private var looperAdapter: LoopViewPagerAdapter? = null
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_find, null)
-        findArticleAdapter = FindArticleAdapter(context)
-        linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        rvFindArticle = view.findViewById(R.id.rv_find)
-        rvFindArticle!!.layoutManager = linearLayoutManager
-        rvFindArticle!!.adapter = findArticleAdapter
+//        findArticleAdapter = FindArticleAdapter(context)
+//        linearLayoutManager = LinearLayoutManager(context)
+//        linearLayoutManager?.orientation = LinearLayoutManager.HORIZONTAL
+//        linearLayoutManager?.widthMode
+        vpFindArticle = view.findViewById(R.id.vp_find)
+        activity?.let { looperAdapter = LoopViewPagerAdapter(vpFindArticle, null, it) }
         loadData()
         return view
     }
@@ -39,8 +52,8 @@ open class FindFragment : Fragment() {
             dataSource.add(article)
         }
 
-        if (findArticleAdapter != null) {
-            findArticleAdapter!!.setDataSource(dataSource)
+        if (looperAdapter != null) {
+            looperAdapter?.setList(dataSource)
         }
     }
 }
